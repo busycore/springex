@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,18 @@ public class APIErrorsControllerAdvice {
         return new APIErrors(errors);
     }
 
-    @ExceptionHandler(NotFoundException.class)
+  @ExceptionHandler(ConstraintViolationException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public APIErrors handleConstraintViolationException(ConstraintViolationException ex){
+      
+    List<String> errors = ex.getConstraintViolations().stream()
+      .map(err -> err.getMessage())
+      .collect(Collectors.toList());
+    return new APIErrors(errors);
+  }
+
+
+  @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public APIErrors handleNotFoundException(NotFoundException exception) {
         return new APIErrors(exception.getMessage());

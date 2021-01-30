@@ -11,7 +11,7 @@ import java.util.List;
 @Primary
 public class GetAllUsersService implements IGetAllUsersService {
 
-    private UsersRepository usersRepository;
+    public UsersRepository usersRepository;
 
     public GetAllUsersService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;

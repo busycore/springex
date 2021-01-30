@@ -1,11 +1,17 @@
 package com.challenge.simpleApi.domains.users.models;
 
 import com.challenge.simpleApi.domains.tasks.models.Tasks;
-import java.util.Set;
-import javax.persistence.*;
+import com.challenge.simpleApi.shared.validations.NotMinor.NotMinor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -13,22 +19,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "users")
 public class Users {
-  public Long getId() {
-    return id;
-  }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(name = "name", nullable = false)
+  @NotEmpty(message = "Name should not be empty")
   private String name;
 
   @Column(name = "age", nullable = false)
+  @NotNull(message = "Age should not be empty")
+  @NotMinor(message = "Should not be less than 18")
   private Integer age;
 
   @OneToMany(mappedBy = "user_id")
