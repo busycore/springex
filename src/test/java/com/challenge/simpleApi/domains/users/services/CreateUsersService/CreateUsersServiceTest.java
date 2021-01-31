@@ -2,6 +2,14 @@ package com.challenge.simpleApi.domains.users.services.CreateUsersService;
 
 import com.challenge.simpleApi.domains.users.models.Users;
 import com.challenge.simpleApi.domains.users.repositories.UsersRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,21 +20,12 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.test.annotation.DirtiesContext;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-
-@SpringBootTest
+//@SpringBootTest
+//@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ExtendWith(MockitoExtension.class)
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-
 public class CreateUsersServiceTest {
 
   @Mock
@@ -40,9 +39,7 @@ public class CreateUsersServiceTest {
   private static Validator validator;
 
   @BeforeEach
-  void setUp() {
-
-  }
+  void setUp() {}
 
   @BeforeAll
   static void beforeAll() {
@@ -73,9 +70,8 @@ public class CreateUsersServiceTest {
     Set<ConstraintViolation<Users>> violations = validator.validate(userInput);
     List<String> errors = new ArrayList<String>();
 
-    errors = violations.stream()
-      .map(x -> x.getMessage())
-      .collect(Collectors.toList());
+    errors =
+      violations.stream().map(x -> x.getMessage()).collect(Collectors.toList());
 
     Assertions.assertEquals("Name should not be empty", errors.get(0));
     //Assertions.assertThrows(MethodArgumentNotValidException.class,()->createUsersService.execute(userInput));
@@ -85,12 +81,12 @@ public class CreateUsersServiceTest {
   @DisplayName("Should not be able to create a new under 18yo User")
   void CreateUnder18User() {
     Users userInput = new Users(null, "Paull", 17, null);
-    var errors = validator.validate(userInput)
+    var errors = validator
+      .validate(userInput)
       .stream()
       .map(x -> x.getMessage())
       .collect(Collectors.toList());
-      
-    Assertions.assertEquals("Should not be less than 18",errors.get(0));
+
+    Assertions.assertEquals("Should not be less than 18", errors.get(0));
   }
-  
 }
