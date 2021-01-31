@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+
 public class CreateUsersServiceTest {
 
   @Mock
