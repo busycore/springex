@@ -1,7 +1,7 @@
 package com.challenge.simpleApi.domains.users.controllers;
 
-import com.challenge.simpleApi.domains.users.dtos.UserDTO;
-import com.challenge.simpleApi.domains.users.dtos.UserMapper;
+import com.challenge.simpleApi.domains.users.dtos.UsersDTO;
+import com.challenge.simpleApi.domains.users.dtos.UsersMapper;
 import com.challenge.simpleApi.domains.users.models.Users;
 
 import com.challenge.simpleApi.domains.users.services.UsersService;
@@ -16,8 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("users")
@@ -36,31 +34,31 @@ public class UsersController {
   @ApiOperation(value = "Get All users")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public List<UserDTO> GetAllUsers() {
+  public List<UsersDTO> GetAllUsers() {
 
-    List<UserDTO> users = UserMapper.INSTANCE.userListToUserDTO(usersService.GetAllUsers());
+    List<UsersDTO> users = UsersMapper.INSTANCE.userListToUserDTO(usersService.GetAllUsers());
     return users;
   }
 
   @ApiOperation(value = "Get an user by id")
   @GetMapping("{id}")
   @ResponseStatus(HttpStatus.OK)
-  public UserDTO GetSpecificUser(@PathVariable("id") Long id) {
-    UserDTO user = UserMapper.INSTANCE.usersToUserDTO(this.usersService.GetUsersById(id));
+  public UsersDTO GetSpecificUser(@PathVariable("id") Long id) {
+    UsersDTO user = UsersMapper.INSTANCE.usersToUserDTO(this.usersService.GetUsersById(id));
     return user;
   }
 
   @ApiOperation(value = "Create a new user")
   @ApiResponses(value ={
-    @ApiResponse(code = 201,message = "An user was created",response = UserDTO.class),
+    @ApiResponse(code = 201,message = "An user was created",response = UsersDTO.class),
     @ApiResponse(code = 400,message = "Your JSON is not correct")
   } )
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public UserDTO CreateUser(@RequestBody UserDTO user) {
+  public UsersDTO CreateUser(@RequestBody UsersDTO user) {
     logger.info("Received " + user);
-    Users userdto = UserMapper.INSTANCE.userDTOToUsers(user);
-    UserDTO dtouser =UserMapper.INSTANCE.usersToUserDTO(this.usersService.CreateUser(userdto));
+    Users userdto = UsersMapper.INSTANCE.userDTOToUsers(user);
+    UsersDTO dtouser = UsersMapper.INSTANCE.usersToUserDTO(this.usersService.CreateUser(userdto));
     logger.info("Returned " + dtouser);
     return dtouser;
   }
@@ -68,13 +66,13 @@ public class UsersController {
   @ApiOperation(value = "Update an User")
   @PutMapping("{id}")
   @ResponseStatus(HttpStatus.OK)
-  public UserDTO UpdateUser(
+  public UsersDTO UpdateUser(
     @PathVariable("id") Long id,
-    @RequestBody UserDTO user
+    @RequestBody UsersDTO user
   ) {
     
-    Users usertdto = UserMapper.INSTANCE.userDTOToUsers(user);
-    UserDTO dtouser =UserMapper.INSTANCE.usersToUserDTO(this.usersService.UpdateUsers(usertdto,id));  
+    Users usertdto = UsersMapper.INSTANCE.userDTOToUsers(user);
+    UsersDTO dtouser = UsersMapper.INSTANCE.usersToUserDTO(this.usersService.UpdateUsers(usertdto,id));  
     
     return dtouser;
   }

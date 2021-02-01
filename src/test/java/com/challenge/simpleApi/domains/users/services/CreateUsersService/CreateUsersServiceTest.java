@@ -56,8 +56,8 @@ public class CreateUsersServiceTest {
   @Test
   @DisplayName("Should be able to create a new User")
   void createUserTest() {
-    Users userInput = new Users(null, "Jonas", 28, null);
-    Users expected = new Users(1L, "Jonas", 28, null);
+    Users userInput = new Users(null, "Jonas", 28);
+    Users expected = new Users(1L, "Jonas", 28);
     Mockito.when(usersRepository.save(userInput)).thenReturn(expected);
     Users actual = createUsersService.execute(userInput);
     Assertions.assertEquals(expected, actual);
@@ -66,7 +66,7 @@ public class CreateUsersServiceTest {
   @Test
   @DisplayName("Should not be able to create a new User without a name")
   void CreateUserWithoutNameTet() {
-    Users userInput = new Users(null, null, 18, null);
+    Users userInput = new Users(null, null, 18);
     Set<ConstraintViolation<Users>> violations = validator.validate(userInput);
     List<String> errors = new ArrayList<String>();
 
@@ -80,7 +80,7 @@ public class CreateUsersServiceTest {
   @Test
   @DisplayName("Should not be able to create a new under 18yo User")
   void CreateUnder18User() {
-    Users userInput = new Users(null, "Paull", 17, null);
+    Users userInput = new Users(null, "Paull", 17);
     var errors = validator
       .validate(userInput)
       .stream()

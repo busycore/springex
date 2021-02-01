@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class UsersDTO {
 
   @ApiModelProperty(notes = "Id of the User",name="Id",required=true,value="1")
   private Long id;

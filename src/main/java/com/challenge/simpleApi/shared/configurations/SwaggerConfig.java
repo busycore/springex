@@ -22,7 +22,7 @@ public class SwaggerConfig {
       .useDefaultResponseMessages(false)
       .select()
       .apis(
-        RequestHandlerSelectors.basePackage("com.challenge.simpleApi.domains.users")
+        RequestHandlerSelectors.basePackage("com.challenge.simpleApi.domains")
       )
       .paths(PathSelectors.any())
       .build()

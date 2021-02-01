@@ -1,5 +1,6 @@
 package com.challenge.simpleApi.shared.errors.http;
 
+import com.challenge.simpleApi.shared.errors.exceptions.FileStorageException;
 import com.challenge.simpleApi.shared.errors.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -40,5 +41,11 @@ public class APIErrorsControllerAdvice {
     public APIErrors handleNotFoundException(NotFoundException exception) {
         return new APIErrors(exception.getMessage());
     }
+
+  @ExceptionHandler(FileStorageException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public APIErrors handleFileStorageException(FileStorageException ex){
+    return new APIErrors(ex.getMessage());
+  }
 
 }
