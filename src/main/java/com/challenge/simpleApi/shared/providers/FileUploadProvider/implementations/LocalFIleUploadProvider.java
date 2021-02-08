@@ -3,6 +3,8 @@ package com.challenge.simpleApi.shared.providers.FileUploadProvider.implementati
 import com.challenge.simpleApi.shared.errors.exceptions.FileStorageException;
 import com.challenge.simpleApi.shared.providers.FileUploadProvider.IFileUploadProvider;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +16,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Component
+
 class LocalFileUploadProvider implements IFileUploadProvider {
 
   @Value("${app.upload.dir:${user.home}}")
