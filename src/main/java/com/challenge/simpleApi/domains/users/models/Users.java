@@ -36,4 +36,6 @@ public class Users {
   @NotMinor(message = "Should not be less than 18")
   private Integer age;
   
+  @OneToMany(mappedBy = "user")
+  private List<Tasks> tasks;
 }

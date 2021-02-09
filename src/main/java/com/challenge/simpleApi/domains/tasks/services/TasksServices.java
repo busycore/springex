@@ -5,12 +5,14 @@ import com.challenge.simpleApi.domains.tasks.services.createTaskService.CreateTa
 import com.challenge.simpleApi.domains.tasks.services.createTaskService.ICreateTaskService;
 import com.challenge.simpleApi.domains.tasks.services.getAllTasks.GetAllTasks;
 import com.challenge.simpleApi.domains.tasks.services.getAllTasks.IGetAllTasks;
+import com.challenge.simpleApi.domains.tasks.services.getAllTasksFromUser.IGetAllTasksFromUser;
 import com.challenge.simpleApi.domains.tasks.services.getTaskById.GetTaskById;
 import com.challenge.simpleApi.domains.tasks.services.getTaskById.IGetTaskById;
 import com.challenge.simpleApi.domains.tasks.services.uploadTaskService.IUploadTaskService;
 import com.challenge.simpleApi.domains.tasks.services.uploadTaskService.UploadTaskService;
 import com.challenge.simpleApi.domains.users.models.Users;
 import com.challenge.simpleApi.domains.users.services.UsersService;
+import com.challenge.simpleApi.domains.users.services.getUserByIdService.IGetUserByIdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +37,9 @@ public class TasksServices {
   @Autowired
   private IUploadTaskService uploadTaskService;
   
+  @Autowired
+  private IGetAllTasksFromUser getAllTasksFromUser;
+  
   public List<Tasks> getAllTasks(){
     return this.getAllTasks.execute();
   }
@@ -49,7 +54,7 @@ public class TasksServices {
   
   public List<Tasks> getTasksByUserId(Long Id){
     Users user = this.usersService.GetUsersById(Id);
-    return this.getTasksByUserId(user.getId());
+    return this.getAllTasksFromUser.execute(user);
   }
   
   public String uploadFile(MultipartFile file){
