@@ -32,9 +32,9 @@ public class GetAllUsersServiceTest {
   private GetAllUsersService getAllUsersService;
 
   private List<Users> fakeRepositoryReturn = new ArrayList<Users>();
-  final Users user1 = new Users(1L, "Jonas", 28);
-  final Users user2 = new Users(2L, "Pedro", 20);
-  final Users user3 = new Users(3L, "Patricia", 21);
+  final Users user1 = new Users(1L, "Jonas", 28,null);
+  final Users user2 = new Users(2L, "Pedro", 20,null);
+  final Users user3 = new Users(3L, "Patricia", 21,null);
 
   @BeforeEach
   void setUp() {
