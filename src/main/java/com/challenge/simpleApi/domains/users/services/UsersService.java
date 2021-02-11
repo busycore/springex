@@ -1,13 +1,13 @@
 package com.challenge.simpleApi.domains.users.services;
 
+import com.challenge.simpleApi.domains.users.dtos.JWTTokenDTO;
 import com.challenge.simpleApi.domains.users.models.Users;
+import com.challenge.simpleApi.domains.users.services.AuthenticateUserService.IAuthenticateUserService;
 import com.challenge.simpleApi.domains.users.services.CreateUsersService.ICreateUsersService;
 import com.challenge.simpleApi.domains.users.services.DeleteUsersService.IDeleteUsersService;
 import com.challenge.simpleApi.domains.users.services.UpdateUsersService.IUpdateUsersService;
 import com.challenge.simpleApi.domains.users.services.getAllUsersService.IGetAllUsersService;
 import com.challenge.simpleApi.domains.users.services.getUserByIdService.IGetUserByIdService;
-import java.util.List;
-
 import com.challenge.simpleApi.domains.users.services.getUserByUsernameService.IGetUserByUsernameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UsersService implements UserDetailsService {
@@ -40,6 +42,9 @@ public class UsersService implements UserDetailsService {
   
   @Autowired
   private IGetUserByUsernameService getUserByUsernameService;
+  
+  @Autowired
+  private IAuthenticateUserService authenticateUserService;
 
   public List<Users> GetAllUsers() {
     return this.getAllUsers.execute();
@@ -67,12 +72,16 @@ public class UsersService implements UserDetailsService {
     return this.getUserByUsernameService.execute(username);
   }
 
+  public JWTTokenDTO authenticateService(Users userToAuthenticate){
+    UserDetails usuario = this.loadUserByUsername(userToAuthenticate.getUsername());
+    return  authenticateUserService.execute(usuario,userToAuthenticate.getPassword());
+  }
+  
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     
+    Users user = this.getUserByUsername(username);
 
-    Users user = getUserByUsernameService.execute(username);
-    System.out.println(user.getUsername());
 
     String[] roles = user.isAdmin()
       ? new String[]{"ADMIN","USER"}

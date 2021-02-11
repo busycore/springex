@@ -1,6 +1,7 @@
 package com.challenge.simpleApi.shared.errors.http;
 
 import com.challenge.simpleApi.shared.errors.exceptions.FileStorageException;
+import com.challenge.simpleApi.shared.errors.exceptions.InvalidPassWordException;
 import com.challenge.simpleApi.shared.errors.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,6 +26,12 @@ public class APIErrorsControllerAdvice {
         return new APIErrors(errors);
     }
 
+    @ExceptionHandler(InvalidPassWordException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public APIErrors handleInvalidPassWordException(InvalidPassWordException ex){
+      return new APIErrors(ex.getMessage());
+    }
+    
   @ExceptionHandler(ConstraintViolationException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public APIErrors handleConstraintViolationException(ConstraintViolationException ex){

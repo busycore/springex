@@ -4,6 +4,7 @@ import com.challenge.simpleApi.domains.tasks.models.Tasks;
 import com.challenge.simpleApi.shared.validations.NotMinor.NotMinor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +19,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "users")
 public class Users {

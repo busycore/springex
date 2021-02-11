@@ -3,14 +3,11 @@ package com.challenge.simpleApi.domains.tasks.controllers;
 import com.challenge.simpleApi.domains.tasks.dtos.TasksDTO;
 import com.challenge.simpleApi.domains.tasks.dtos.TasksMapper;
 import com.challenge.simpleApi.domains.tasks.models.Tasks;
-import com.challenge.simpleApi.domains.tasks.repositories.TasksRepositories;
 import com.challenge.simpleApi.domains.tasks.services.TasksServices;
-import com.challenge.simpleApi.domains.users.services.UsersService;
-import com.challenge.simpleApi.shared.providers.FileUploadProvider.IFileUploadProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +64,8 @@ public class TasksController {
   ) {
     return this.tasksServices.uploadFile(file);
   }
+  
+  
 
   @GetMapping("test")
   @ResponseStatus(HttpStatus.ACCEPTED)
