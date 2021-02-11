@@ -14,7 +14,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,7 +28,8 @@ public class UsersController {
   Logger logger = LoggerFactory.getLogger(UsersController.class);
 
   private UsersService usersService;
-
+  
+  
   public UsersController(UsersService usersService) {
     this.usersService = usersService;
   }
@@ -35,7 +38,6 @@ public class UsersController {
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<UsersDTO> GetAllUsers() {
-
     List<UsersDTO> users = UsersMapper.INSTANCE.userListToUserDTO(usersService.GetAllUsers());
     return users;
   }
@@ -59,6 +61,7 @@ public class UsersController {
     logger.info("Received " + user);
     Users userdto = UsersMapper.INSTANCE.userDTOToUsers(user);
     UsersDTO dtouser = UsersMapper.INSTANCE.usersToUserDTO(this.usersService.CreateUser(userdto));
+    
     logger.info("Returned " + dtouser);
     return dtouser;
   }

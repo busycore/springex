@@ -30,6 +30,18 @@ public class Users {
   @Column(name = "name", nullable = false)
   @NotEmpty(message = "Name should not be empty")
   private String name;
+  
+  @Column
+  @NotEmpty(message = "Username should not be empty")
+  private String username;
+  
+  @Column
+  @NotNull(message = "Username should not be empty")
+  private String password;
+  
+  @Column
+  @NotNull(message = "admin should not be empty")
+  private boolean admin;
 
   @Column(name = "age", nullable = false)
   @NotNull(message = "Age should not be empty")

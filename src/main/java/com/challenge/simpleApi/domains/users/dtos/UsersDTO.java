@@ -18,4 +18,13 @@ public class UsersDTO {
 
   @ApiModelProperty(notes = "User Age",name="age",required=true,value="23")
   private Integer age;
+
+  @ApiModelProperty(notes = "Username",name="username",required=true,value="johndoe")
+  private String username;
+
+  @ApiModelProperty(notes = "User password",name="password",required=true,value="123456")
+  private String password;
+
+  @ApiModelProperty(notes = "Is admin?",name="admin",required=true,value="true")
+  private boolean admin;
 }
