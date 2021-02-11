@@ -20,7 +20,6 @@ public class GetUserByIdService implements IGetUserByIdService{
 
     @Override
     public Users execute(Long Id) {
-        System.out.println("GetById : " + usersRepository);
         Optional<Users> foundUser = this.usersRepository.findById(Id);
         if(foundUser.isEmpty()){
             throw new NotFoundException("This user_id does not exists");
