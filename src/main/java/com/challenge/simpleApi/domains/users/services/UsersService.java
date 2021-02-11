@@ -1,5 +1,6 @@
 package com.challenge.simpleApi.domains.users.services;
 
+import com.challenge.simpleApi.domains.users.dtos.AuthenticationDTO;
 import com.challenge.simpleApi.domains.users.dtos.JWTTokenDTO;
 import com.challenge.simpleApi.domains.users.models.Users;
 import com.challenge.simpleApi.domains.users.services.AuthenticateUserService.IAuthenticateUserService;
@@ -72,7 +73,7 @@ public class UsersService implements UserDetailsService {
     return this.getUserByUsernameService.execute(username);
   }
 
-  public JWTTokenDTO authenticateService(Users userToAuthenticate){
+  public JWTTokenDTO authenticateService(AuthenticationDTO userToAuthenticate){
     UserDetails usuario = this.loadUserByUsername(userToAuthenticate.getUsername());
     return  authenticateUserService.execute(usuario,userToAuthenticate.getPassword());
   }

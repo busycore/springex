@@ -1,5 +1,6 @@
 package com.challenge.simpleApi.domains.users.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,8 +24,10 @@ public class UsersDTO {
   private String username;
 
   @ApiModelProperty(notes = "User password",name="password",required=true,value="123456")
+  @JsonIgnore
   private String password;
 
   @ApiModelProperty(notes = "Is admin?",name="admin",required=true,value="true")
+  @JsonIgnore
   private boolean admin;
 }

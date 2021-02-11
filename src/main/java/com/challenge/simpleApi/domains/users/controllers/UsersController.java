@@ -87,8 +87,7 @@ public class UsersController {
   @PostMapping("/authenticate")
   @ResponseStatus(HttpStatus.OK)
   public JWTTokenDTO authenticate(@RequestBody AuthenticationDTO credentials) {
-    final Users user = Users.builder().username(credentials.getUsername()).password(credentials.getPassword()).build();
-    JWTTokenDTO authenticatedUser = this.usersService.authenticateService(user);
+    JWTTokenDTO authenticatedUser = this.usersService.authenticateService(credentials);
     return authenticatedUser;
   }
   
