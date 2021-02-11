@@ -19,7 +19,6 @@ public class GetAllUsersService implements IGetAllUsersService {
 
     @Override
     public List<Users> execute() {
-        System.out.println("GetAll : " + usersRepository);
         return this.usersRepository.findAll();
     }
 }
