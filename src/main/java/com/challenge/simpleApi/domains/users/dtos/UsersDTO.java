@@ -24,10 +24,8 @@ public class UsersDTO {
   private String username;
 
   @ApiModelProperty(notes = "User password",name="password",required=true,value="123456")
-  @JsonIgnore
   private String password;
 
   @ApiModelProperty(notes = "Is admin?",name="admin",required=true,value="true")
-  @JsonIgnore
   private boolean admin;
 }

@@ -24,7 +24,10 @@ public class CreateUsersService implements ICreateUsersService{
     
     @Override
     public Users execute(Users user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        System.out.println(user);
+        String encodedPass = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPass);
+        System.out.println(encodedPass);
         return this.usersRepository.save(user);
     }
 }
