@@ -10,6 +10,7 @@ import com.challenge.simpleApi.domains.users.services.UsersService;
 
 import java.util.List;
 
+import com.challenge.simpleApi.shared.http.APIResponse;
 import com.challenge.simpleApi.shared.security.JWT.JWTService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,9 +20,14 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("users")
@@ -41,17 +47,19 @@ public class UsersController {
   @ApiOperation(value = "Get All users")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public List<UsersDTO> GetAllUsers() {
+  //public APIResponse<List<UsersDTO>> GetAllUsers(HttpServletRequest request, HttpServletResponse response) {
+  public APIResponse<List<UsersDTO>> GetAllUsers() {
     List<UsersDTO> users = UsersMapper.INSTANCE.userListToUserDTO(usersService.GetAllUsers());
-    return users;
+
+    return new APIResponse<List<UsersDTO>>(users,HttpStatus.OK);
   }
 
   @ApiOperation(value = "Get an user by id")
   @GetMapping("{id}")
   @ResponseStatus(HttpStatus.OK)
-  public UsersDTO GetSpecificUser(@PathVariable("id") Long id) {
+  public APIResponse<UsersDTO> GetSpecificUser(@PathVariable("id") Long id) {
     UsersDTO user = UsersMapper.INSTANCE.usersToUserDTO(this.usersService.GetUsersById(id));
-    return user;
+    return new APIResponse<UsersDTO>(user,HttpStatus.OK);
   }
 
   @ApiOperation(value = "Create a new user")
@@ -61,19 +69,19 @@ public class UsersController {
   })
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public UsersDTO CreateUser(@RequestBody UsersDTO user) {
+  public APIResponse<UsersDTO> CreateUser(@RequestBody UsersDTO user) {
     logger.info("Received " + user);
     Users userdto = UsersMapper.INSTANCE.userDTOToUsers(user);
     UsersDTO dtouser = UsersMapper.INSTANCE.usersToUserDTO(this.usersService.CreateUser(userdto));
 
     logger.info("Returned " + dtouser);
-    return dtouser;
+    return new APIResponse<UsersDTO>(dtouser,HttpStatus.CREATED);
   }
 
   @ApiOperation(value = "Update an User")
   @PutMapping("{id}")
   @ResponseStatus(HttpStatus.OK)
-  public UsersDTO UpdateUser(
+  public APIResponse<UsersDTO> UpdateUser(
     @PathVariable("id") Long id,
     @RequestBody UsersDTO user
   ) {
@@ -81,14 +89,14 @@ public class UsersController {
     Users usertdto = UsersMapper.INSTANCE.userDTOToUsers(user);
     UsersDTO dtouser = UsersMapper.INSTANCE.usersToUserDTO(this.usersService.UpdateUsers(usertdto, id));
 
-    return dtouser;
+    return new APIResponse<UsersDTO>(dtouser,HttpStatus.OK);
   }
 
   @PostMapping("/authenticate")
   @ResponseStatus(HttpStatus.OK)
-  public JWTTokenDTO authenticate(@RequestBody AuthenticationDTO credentials) {
+  public APIResponse<JWTTokenDTO> authenticate(@RequestBody AuthenticationDTO credentials) {
     JWTTokenDTO authenticatedUser = this.usersService.authenticateService(credentials);
-    return authenticatedUser;
+    return new APIResponse<JWTTokenDTO>(authenticatedUser,HttpStatus.OK);
   }
   
   @ApiOperation(value = "Delete an specific user")
