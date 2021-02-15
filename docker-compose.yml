@@ -1,0 +1,40 @@
+version: "3" # optional since v1.27.0
+
+volumes:
+  springDb:
+
+networks:
+  postgresNetwork:
+    driver: bridge
+
+services:
+  postgres:
+    image: "bitnami/postgresql:latest"
+    container_name: "postgres_db"
+    networks:
+      - postgresNetwork
+    ports:
+      - "5432:5432"
+    volumes:
+      - "springDb:/var/lib/postgresdb"
+    environment:
+      - "POSTGRESQL_USERNAME=usr123"
+      - "POSTGRESQL_PASSWORD=password123"
+      - "POSTGRESQL_DATABASE=database"
+
+  springapplication:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "springcontainer"
+    networks:
+      - postgresNetwork
+    ports:
+      - "3002:3002"
+    depends_on:
+      - postgres
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_db:5432/database"
+      - "SPRING_DATASOURCE_USERNAME=usr123"
+      - "SPRING_DATASOURCE_PASSWORD=password123"
+      - "SPRING_JPA_HIBERNATE_DDL_AUTO=update"
