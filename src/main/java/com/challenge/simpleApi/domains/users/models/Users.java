@@ -1,6 +1,7 @@
 package com.challenge.simpleApi.domains.users.models;
 
 import com.challenge.simpleApi.domains.tasks.models.Tasks;
+import com.challenge.simpleApi.domains.users.security.DateAudit;
 import com.challenge.simpleApi.shared.validations.NotMinor.NotMinor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "users")
-public class Users {
+public class Users extends DateAudit {
 
 
   @Id
