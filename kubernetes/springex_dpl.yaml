@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: springexmtd
+spec:
+  selector:
+    app: springex
+  type: "LoadBalancer"
+  ports:
+    - port: 3002
+      targetPort: 3002
+      protocol: "TCP"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springex
+  template:
+    metadata:
+      labels:
+        app: springex
+    spec:
+      containers:
+      - name: springex
+        image: busycore/springex
+        resources:
+          limits:
+            memory: "1G"
+            cpu: "1"
+        ports:
+        - containerPort: 3002
+        env:
+          - name: SPRING_DATASOURCE_URL
+            value: "jdbc:postgresql://postgres-svc:5432/database"
+          - name: SPRING_DATASOURCE_USERNAME
+            value: "usr123"
+          - name: SPRING_DATASOURCE_PASSWORD
+            value: "password123"
+          - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+            value: "update"
